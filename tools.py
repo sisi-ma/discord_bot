@@ -6,7 +6,11 @@ import requests
 from bs4 import BeautifulSoup
 import const
 
-bot = commands.Bot(command_prefix="!",help_command=None)
+GOOGLE_API_KEY          = os.environ['GOOGLE_API_KEY']
+CUSTOM_SEARCH_ENGINE_ID = os.environ['CUSTOM_SEARCH_ENGINE_ID']
+DISCORD_TOKEN           = os.environ['DISCORD_TOKEN']
+
+bot = commands.Bot(command_prefix="!",help_command=None) # ! + 関数名 のメッセージ送信でコマンド実行と定義
 
 # 起動時に動作する処理
 @bot.event
@@ -41,9 +45,11 @@ async def on_message(message):
     elif random.randint(1, 200) == 200:
         await message.channel.send('ワイトもそう思います。')
 
+    # TODO: ここのダイス処理バカクソきたねえからそのうちどうにかしたいわね
+
     await bot.process_commands(message)
 
-@bot.command(aliases=['h'])
+@bot.command(aliases=['h']) # !helpだけでなく!hでも呼べるようにaliasをはってる
 async def help(ctx):
     await ctx.send((
         '```\n'
@@ -62,26 +68,28 @@ async def help(ctx):
         '```'
     ))
 
-@bot.command(aliases=['y', 'ygo'])
+@bot.command(aliases=['y', 'ygo']) # aliasは複数はれる
 async def ygoggr(ctx, *search_words):
     results = getYGOSearchResponse(' '.join(search_words))
 
+    # 検索結果から<pre>タグを持つページを1件引っ張ってきて文字列加工
     for result in results:
         url = requests.get(result['link'])
         soup = BeautifulSoup(url.content, 'html.parser').find_all('pre')
         if soup != []:
-            # output = '**'+str(result['title'])+'**\n '+str(result['link']+' \n```\n')+str(soup[0])[5:-6]+'\n```' # URL込み
             output = '**'+str(result['title'])+'**\n```\n'+str(soup[0])[5:-6]+'\n```'
             break
 
     print(output)
     await ctx.send(output)
 
-def getYGOSearchResponse(search_word):
-    service = build("customsearch", "v1", developerKey=const.GOOGLE_API_KEY)
+
+def getYGOSearchResponse(search_words):
+    # 受け取った単語で遊戯王Wiki内を検索しページを上から10件返す
+    service = build("customsearch", "v1", developerKey=GOOGLE_API_KEY)
     response = service.cse().list(
-        q=search_word,
-        cx=const.CUSTOM_SEARCH_ENGINE_ID,
+        q=search_words,
+        cx=CUSTOM_SEARCH_ENGINE_ID
         lr='lang_ja',
         num=10,
     ).execute()
@@ -92,4 +100,4 @@ async def passive(ctx):
     await ctx.send(random.choice(('天則', 'スマブラ', '遊戯王')))
 
 # Botの起動とDiscordサーバーへの接続
-bot.run(const.DISCORD_TOKEN)
+bot.run(DISCORD_TOKEN)
