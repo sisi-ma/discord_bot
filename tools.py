@@ -4,7 +4,7 @@ from googleapiclient.discovery import build
 from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
-import const
+import os
 
 GOOGLE_API_KEY          = os.environ['GOOGLE_API_KEY']
 CUSTOM_SEARCH_ENGINE_ID = os.environ['CUSTOM_SEARCH_ENGINE_ID']
