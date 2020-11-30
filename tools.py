@@ -32,24 +32,6 @@ async def on_message(message):
     if message.author.bot:
         # メッセージ送信者がBotだった場合は無視する
         return
-    elif message.content == '!dice' or message.content == '!d' or message.content == '!1d6':
-        await message.channel.send(random.randint(1, 6))
-    elif message.content == '!2d6':
-        await message.channel.send(str(random.randint(1, 6)) + ', ' + str(random.randint(1, 6)))
-    elif message.content == '!3d6':
-        await message.channel.send(str(random.randint(1, 6)) + ', ' + str(random.randint(1, 6)) + ', ' + str(random.randint(1, 6)))
-    elif message.content == '!d10' or message.content == '!1d10':
-        await message.channel.send(random.randint(1, 10))
-    elif message.content == '!2d10':
-        await message.channel.send(str(random.randint(1, 10)) + ', ' + str(random.randint(1, 10)))
-    elif message.content == '!3d10':
-        await message.channel.send(str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)))
-    elif message.content == '!d100' or message.content == '!1d100':
-        await message.channel.send(random.randint(1, 100))
-    elif message.content == '!2d100':
-        await message.channel.send(str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)))
-    elif message.content == '!3d100':
-        await message.channel.send(str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)))
     elif random.randint(1, 200) == 200:
         # メッセージが飛んでくるたび0.5%の確率でワイトもそう思ってくれる
         await message.channel.send('ワイトもそう思います。')
@@ -66,8 +48,7 @@ async def help(ctx):
         '!help:    コマンド一覧を表示します（今表示してるこれ）\n'
         '          省略形として「!h」でも表示できます。\n'
         '\n'
-        '!dice:    ダイスを振ります。6面、10面、100面ダイスがあり、「!3d6」のように指定することで最大3つまで同時に投げることができます。\n'
-        '          省略形として「!d」で6面ダイスを振れます。\n'
+        '!dice:    ダイスを振ります。省略形として「!d」で6面ダイス、また「!1d100」で100面ダイスを振れます。\n'
         '\n'
         '!ygoggr:  遊戯王カードWiki内の検索結果を表示します。\n'
         '          効果テキスト欄を持つページを1件先頭から探し、タイトルと効果テキストを返します。\n'
@@ -79,6 +60,14 @@ async def help(ctx):
         '          省略形として「!p」「!pa」でもOKです。\n'
         '```'
     )
+
+@bot.command(aliases=['d', '1d6'])
+async def dice(ctx):
+    await ctx.send(random.randint(1, 6))
+
+@bot.command(aliases=['1d100'])
+async def d100(ctx):
+    await ctx.send(random.randint(1, 100))
 
 @bot.command(aliases=['y', 'ygo'])
 async def ygoggr(ctx, *search_words):
