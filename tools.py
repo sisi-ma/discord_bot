@@ -1,11 +1,18 @@
-import discord
-import random
-from googleapiclient.discovery import build
-from discord.ext import commands
-import requests
-from bs4 import BeautifulSoup
 import os
+import random
+import requests
+import discord
+from discord.ext import commands
+from googleapiclient.discovery import build
+from bs4 import BeautifulSoup
 
+# const.py用
+# import const
+# GOOGLE_API_KEY          = const.GOOGLE_API_KEY
+# CUSTOM_SEARCH_ENGINE_ID = const.CUSTOM_SEARCH_ENGINE_ID
+# DISCORD_TOKEN           = const.DISCORD_TOKEN
+
+# Heroku用
 GOOGLE_API_KEY          = os.environ['GOOGLE_API_KEY']
 CUSTOM_SEARCH_ENGINE_ID = os.environ['CUSTOM_SEARCH_ENGINE_ID']
 DISCORD_TOKEN           = os.environ['DISCORD_TOKEN']
@@ -89,7 +96,7 @@ def getYGOSearchResponse(search_words):
     service = build("customsearch", "v1", developerKey=GOOGLE_API_KEY)
     response = service.cse().list(
         q=search_words,
-        cx=CUSTOM_SEARCH_ENGINE_ID
+        cx=CUSTOM_SEARCH_ENGINE_ID,
         lr='lang_ja',
         num=10,
     ).execute()
