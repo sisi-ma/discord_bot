@@ -17,7 +17,8 @@ GOOGLE_API_KEY          = os.environ['GOOGLE_API_KEY']
 CUSTOM_SEARCH_ENGINE_ID = os.environ['CUSTOM_SEARCH_ENGINE_ID']
 DISCORD_TOKEN           = os.environ['DISCORD_TOKEN']
 
-bot = commands.Bot(command_prefix="!",help_command=None) # ! + 関数名 のメッセージ送信でコマンド実行と定義
+# ! + 関数名 のメッセージ送信でコマンド実行と定義
+bot = commands.Bot(command_prefix="!",help_command=None)
 
 # 起動時に動作する処理
 @bot.event
@@ -28,8 +29,8 @@ async def on_ready():
 # メッセージ受信時に動作する処理
 @bot.event
 async def on_message(message):
-    # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
+        # メッセージ送信者がBotだった場合は無視する
         return
     elif message.content == '!dice' or message.content == '!d' or message.content == '!1d6':
         await message.channel.send(random.randint(1, 6))
@@ -50,15 +51,17 @@ async def on_message(message):
     elif message.content == '!3d100':
         await message.channel.send(str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)) + ', ' + str(random.randint(1, 100)))
     elif random.randint(1, 200) == 200:
+        # メッセージが飛んでくるたび0.5%の確率でワイトもそう思ってくれる
         await message.channel.send('ワイトもそう思います。')
 
-    # TODO: ここのダイス処理バカクソきたねえからそのうちどうにかしたいわね
-
+    # on_messageをオーバーライドするとせっかく定義したコマンドが使えなくなるっぽい
+    # 下記はそれを回避するおまじない
     await bot.process_commands(message)
 
-@bot.command(aliases=['h']) # !helpだけでなく!hでも呼べるようにaliasをはってる
+# !helpだけでなく!hでも呼べるようにaliasをはってる
+@bot.command(aliases=['h'])
 async def help(ctx):
-    await ctx.send((
+    await ctx.send(
         '```\n'
         '!help:    コマンド一覧を表示します（今表示してるこれ）\n'
         '          省略形として「!h」でも表示できます。\n'
@@ -73,10 +76,11 @@ async def help(ctx):
         '!passive: 天則、スマブラ、遊戯王の中からランダムに一つ返します。\n'
         '          省略形として「!p」「!pa」でもOKです。\n'
         '```'
-    ))
+    )
 
-@bot.command(aliases=['y', 'ygo']) # aliasは複数はれる
+@bot.command(aliases=['y', 'ygo'])
 async def ygoggr(ctx, *search_words):
+    # 検索そのものは別関数に丸投げ
     results = getYGOSearchResponse(' '.join(search_words))
 
     # 検索結果から<pre>タグを持つページを1件引っ張ってきて文字列加工
@@ -89,7 +93,6 @@ async def ygoggr(ctx, *search_words):
 
     print(output)
     await ctx.send(output)
-
 
 def getYGOSearchResponse(search_words):
     # 受け取った単語で遊戯王Wiki内を検索しページを上から10件返す
