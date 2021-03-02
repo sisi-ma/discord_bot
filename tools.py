@@ -56,7 +56,7 @@ async def help(ctx):
         '          「!y ドラグーン　禁止」のようにスペース区切りで複数キーワードも指定できます。\n'
         '          あとはものによりますが「!y レダメ」のように略称も案外いけます。\n'
         '\n'
-        '!passive: 天則、スマブラ、遊戯王の中からランダムに一つ返します。\n'
+        '!passive: 天則、憑依華、遊戯王の中からランダムに一つ返します。\n'
         '          省略形として「!p」「!pa」でもOKです。\n'
         '```'
     )
@@ -98,7 +98,7 @@ def getYGOSearchResponse(search_words):
 
 @bot.command(aliases=['p', 'pa'])
 async def passive(ctx):
-    await ctx.send(random.choice(('天則', 'スマブラ', '遊戯王')))
+    await ctx.send(random.choice(('天則', '憑依華', '遊戯王')))
 
 # Botの起動とDiscordサーバーへの接続
 bot.run(DISCORD_TOKEN)
