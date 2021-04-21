@@ -75,6 +75,7 @@ async def ygoggr(ctx, *search_words):
     results = getYGOSearchResponse(' '.join(search_words))
 
     # 検索結果から<pre>タグを持つページを1件引っ張ってきて文字列加工
+    output = '見つかりませんでした……'
     for result in results:
         url = requests.get(result['link'], verify=False)
         soup = BeautifulSoup(url.content, 'html.parser').find_all('pre')
