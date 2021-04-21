@@ -62,8 +62,8 @@ async def help(ctx):
         '           省略形として「!p」「!pa」でもOKです。\n'
         '\n'
         '!randlist: スプレッドシートの項目からランダムに一つ返します。\n'
-        '           https://docs.google.com/spreadsheets/d/1LZq1Pmqt_PRYTnkKz7ershaG2ILQTMTVFnGEAOsaYDQ/edit'
-        '           上記のSheet1、セルA1からA10までが対象です。'
+        '           https://docs.google.com/spreadsheets/d/1LZq1Pmqt_PRYTnkKz7ershaG2ILQTMTVFnGEAOsaYDQ/edit\n'
+        '           上記のSheet1、セルA1からA10までが対象です。\n'
         '           省略形として「!r」「!rl」でもOKです。\n'
         '```'
     )
