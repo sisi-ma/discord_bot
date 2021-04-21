@@ -83,7 +83,6 @@ async def ygoggr(ctx, *search_words):
             output = '**'+str(result['title'])+'**\n```\n'+str(soup[0])[5:-6]+'\n```'
             break
 
-    print(output)
     await ctx.send(output)
 
 def getYGOSearchResponse(search_words):
@@ -95,7 +94,8 @@ def getYGOSearchResponse(search_words):
         lr='lang_ja',
         num=10,
     ).execute()
-    return response['items']
+    results = response['items'] if 'items' in response else []
+    return results
 
 @bot.command(aliases=['p', 'pa'])
 async def passive(ctx):
