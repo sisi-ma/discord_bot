@@ -1,3 +1,5 @@
 discord.py
 google-api-python-client
 beautifulsoup4
+gspread
+oauth2client
