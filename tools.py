@@ -60,9 +60,6 @@ async def help(ctx):
         '           「!y ドラグーン　禁止」のようにスペース区切りで複数キーワードも指定できます。\n'
         '           あとはものによりますが「!y レダメ」のように略称も案外いけます。\n'
         '\n'
-        '!passive:  天則、憑依華、遊戯王、モンハンの中からランダムに一つ返します。\n'
-        '           省略形として「!p」「!pa」でもOKです。\n'
-        '\n'
         '!randlist: スプレッドシートの項目からランダムに一つ返します。\n'
         '           https://docs.google.com/spreadsheets/d/1LZq1Pmqt_PRYTnkKz7ershaG2ILQTMTVFnGEAOsaYDQ/edit\n'
         '           上記のSheet1、セルA1からA10までが対象です。\n'
@@ -105,10 +102,6 @@ def getYGOSearchResponse(search_words):
     ).execute()
     results = response['items'] if 'items' in response else []
     return results
-
-@bot.command(aliases=['p', 'pa'])
-async def passive(ctx):
-    await ctx.send(random.choice(('天則', '憑依華', '遊戯王', 'モンハン')))
 
 @bot.command(aliases=['r', 'rl'])
 async def randlist(ctx):
