@@ -49,6 +49,8 @@ async def on_message(message):
 async def help(ctx):
     await ctx.send(
         '```\n'
+        'プロジェクト : https://github.com/sisi-ma/discord_bot'
+        '\n'
         '!help:     コマンド一覧を表示します（今表示してるこれ）\n'
         '           省略形として「!h」でも表示できます。\n'
         '\n'
